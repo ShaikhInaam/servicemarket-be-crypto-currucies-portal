@@ -20,6 +20,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "entityManagerFactory",
+        transactionManagerRef = "usageTransactionManager",
         basePackages = { "com.crypto.portal.cryptoportal.repository" })
 public class MainDBConfig {
 
