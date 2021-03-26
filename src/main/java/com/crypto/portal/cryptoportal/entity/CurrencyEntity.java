@@ -3,6 +3,7 @@ package com.crypto.portal.cryptoportal.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.List;
 
 
@@ -18,18 +19,27 @@ public class CurrencyEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "block_chain")
     private String BlockChain;
-    @Column(unique = true)
-    private String Symbol;
+
+    private String symbol;
+
+    @Column(name = "market_cap")
     private String MarketCap;
-    private String Price;
+
+    private String price;
+
+    @Column(name = "circ_supply")
     private String CircSupply;
-    @Column(unique = true)
+
+    @Column(unique = true, name = "coin_name")
     private String CoinName;
-    private String rank;
+
+    private int rank;
     private String logo_url;
-    private String date_added;
-    private String Description;
+    private Date date_added;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "currency", nullable = false , insertable=false , updatable=false)
@@ -38,6 +48,7 @@ public class CurrencyEntity {
     @OneToMany(targetEntity = CurrencyExchangesEntity.class, fetch = FetchType.LAZY)
     private List<CurrencyExchangesEntity> currencyExchanList;
 
-    @OneToMany(targetEntity = CurrencyStatsEntity.class, fetch = FetchType.LAZY)
-    private List<CurrencyStatsEntity> currencyStatsList;
+//    @OneToOne(targetEntity = CurrencyStatsEntity.class, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "currency", fetch = FetchType.LAZY)
+    private CurrencyStatsEntity currencyStatsEntity;
 }

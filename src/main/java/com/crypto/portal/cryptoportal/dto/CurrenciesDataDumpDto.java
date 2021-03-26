@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Delegate;
 
 import java.sql.Date;
 
@@ -17,7 +18,7 @@ import java.sql.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Crypto3rdPartyApiCurrenciesDto {
+public class CurrenciesDataDumpDto {
 
     private String currency;
     private String symbol;
@@ -36,20 +37,24 @@ public class Crypto3rdPartyApiCurrenciesDto {
 
     @JsonProperty("1d")
     private PriceChange oneDay;
+
     @JsonProperty("7d")
     private PriceChange weekly;
+
     @JsonProperty("30d")
     private PriceChange monthly;
+
     @JsonProperty("365d")
     private PriceChange yearly;
 
+
+    @JsonSerialize
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public class PriceChange {
+        private String price_change;
+    }
 }
 
-@JsonSerialize
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-class PriceChange{
-    private String price_change;
-}

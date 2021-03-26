@@ -1,18 +1,18 @@
 package com.crypto.portal.cryptoportal.business.impl;
 
-import com.crypto.portal.cryptoportal.business.base.Crypto3rdPartyApiBusiness;
-import com.crypto.portal.cryptoportal.dto.Crypto3rdPartyApiCurrenciesDto;
-import com.crypto.portal.cryptoportal.dto.Crypto3rdPartyApiInfo;
-import com.crypto.portal.cryptoportal.dto.CurrencyInfoDto;
+import com.crypto.portal.cryptoportal.business.base.CurrenciesDataDumpBusiness;
+import com.crypto.portal.cryptoportal.dto.CurrenciesDataDumpDto;
+import com.crypto.portal.cryptoportal.dto.CurrenciesDataDumpDescDto;
 import com.crypto.portal.cryptoportal.request.BaseRequest;
 import com.crypto.portal.cryptoportal.response.BaseResponse;
-import com.crypto.portal.cryptoportal.response.CurrencyInfoResponse;
-import com.crypto.portal.cryptoportal.service.base.Crypto3rdPartyApiService;
+import com.crypto.portal.cryptoportal.service.base.CurrenciesDataDumpService;
 import com.crypto.portal.cryptoportal.util.ConfigurationUtil;
 import com.crypto.portal.cryptoportal.util.Constants;
 import com.crypto.portal.cryptoportal.util.RestServiceUtility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Crypto3rdPartyApiBusinessImpl implements Crypto3rdPartyApiBusiness {
+public class CurrenciesDataDumpBusinessImpl implements CurrenciesDataDumpBusiness {
 
     @Autowired
     RestServiceUtility utility;
@@ -30,7 +30,9 @@ public class Crypto3rdPartyApiBusinessImpl implements Crypto3rdPartyApiBusiness 
     ConfigurationUtil configurationUtil;
 
     @Autowired
-    Crypto3rdPartyApiService crypto3rdPartyApiService;
+    CurrenciesDataDumpService currenciesDataDumpService;
+
+    private static Logger log = LoggerFactory.getLogger(CurrenciesDataDumpBusinessImpl.class);
 
     @Override
     public BaseResponse getCryptoCurrencies(BaseRequest request) {
@@ -40,18 +42,23 @@ public class Crypto3rdPartyApiBusinessImpl implements Crypto3rdPartyApiBusiness 
         header.add("ContentType", "application/json");
 
         List response = (List) utility.callGetJson("https://api.nomics.com/v1/currencies/ticker?key=d0a7ba4aa83fa093b777e3085fa51a99", ArrayList.class, header);
-        List<Crypto3rdPartyApiCurrenciesDto> jsonResponseList = null;
+        List<CurrenciesDataDumpDto> jsonResponseList = null;
+
+        log.info("Fetching Currencies Data");
 
         if (response != null) {
-            jsonResponseList = mapper.convertValue(response, new TypeReference<List<Crypto3rdPartyApiCurrenciesDto>>() {});
+            jsonResponseList = mapper.convertValue(response, new TypeReference<List<CurrenciesDataDumpDto>>() {});
 
-            List<Crypto3rdPartyApiInfo> currencyInfo = getCryptoInfo(request);
+            log.info("Fetching Currencies Data info");
 
-            System.out.println("response: " + jsonResponseList);
+            List<CurrenciesDataDumpDescDto> currencyInfo = getCryptoInfo(request);
 
-            for(Crypto3rdPartyApiCurrenciesDto currencyResponse : jsonResponseList) {
 
-                for(Crypto3rdPartyApiInfo infoResponse : currencyInfo) {
+            log.info("Setting Description");
+
+            for(CurrenciesDataDumpDto currencyResponse : jsonResponseList) {
+
+                for(CurrenciesDataDumpDescDto infoResponse : currencyInfo) {
                     if(infoResponse.getId().equals(currencyResponse.getId()))
                     {
                         currencyResponse.setDescription(infoResponse.getDescription());
@@ -61,7 +68,7 @@ public class Crypto3rdPartyApiBusinessImpl implements Crypto3rdPartyApiBusiness 
             }
 
 
-            return crypto3rdPartyApiService.saveCurrenciesInfo(jsonResponseList);
+            return currenciesDataDumpService.saveCurrenciesInfo(jsonResponseList);
 
         }
         else{
@@ -72,17 +79,17 @@ public class Crypto3rdPartyApiBusinessImpl implements Crypto3rdPartyApiBusiness 
 
 
     @Override
-    public List<Crypto3rdPartyApiInfo> getCryptoInfo(BaseRequest request) {
+    public List<CurrenciesDataDumpDescDto> getCryptoInfo(BaseRequest request) {
 
         ObjectMapper mapper = new ObjectMapper();
         HttpHeaders header = new HttpHeaders();
         header.add("ContentType", "application/json");
 
         List response = (List) utility.callGetJson("https://api.nomics.com/v1/currencies?key=d0a7ba4aa83fa093b777e3085fa51a99", ArrayList.class, header);
-        List<Crypto3rdPartyApiInfo> jsonResponseList = null;
+        List<CurrenciesDataDumpDescDto> jsonResponseList = null;
 
         if (response != null) {
-            jsonResponseList = mapper.convertValue(response, new TypeReference<List<Crypto3rdPartyApiInfo>>() {});
+            jsonResponseList = mapper.convertValue(response, new TypeReference<List<CurrenciesDataDumpDescDto>>() {});
 
             return jsonResponseList;
 

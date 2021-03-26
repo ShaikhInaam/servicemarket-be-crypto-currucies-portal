@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Crypto3rdPartyApiInfo {
+public class CurrenciesDataDumpDescDto {
 
     String description;
     String id;

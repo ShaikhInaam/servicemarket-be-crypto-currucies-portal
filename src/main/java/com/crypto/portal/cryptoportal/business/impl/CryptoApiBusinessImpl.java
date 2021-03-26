@@ -14,7 +14,6 @@ import com.crypto.portal.cryptoportal.response.CryptoRatesResponse;
 import com.crypto.portal.cryptoportal.response.CryptoWeeklyRatesResponse;
 import com.crypto.portal.cryptoportal.response.CurrencyInfoResponse;
 import com.crypto.portal.cryptoportal.response.ExchangeCompaniesResponse;
-import com.crypto.portal.cryptoportal.service.base.Crypto3rdPartyApiService;
 import com.crypto.portal.cryptoportal.util.ConfigurationUtil;
 import com.crypto.portal.cryptoportal.util.Constants;
 import com.crypto.portal.cryptoportal.util.RestServiceUtility;

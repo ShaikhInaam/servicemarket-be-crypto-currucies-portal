@@ -1,6 +1,6 @@
 package com.crypto.portal.cryptoportal.controller;
 
-import com.crypto.portal.cryptoportal.business.base.Crypto3rdPartyApiBusiness;
+import com.crypto.portal.cryptoportal.business.base.CurrenciesDataDumpBusiness;
 import com.crypto.portal.cryptoportal.business.base.CryptoApiBusiness;
 import com.crypto.portal.cryptoportal.request.BaseRequest;
 import com.crypto.portal.cryptoportal.response.BaseResponse;
@@ -19,7 +19,7 @@ public class CryptoApiController {
     CryptoApiBusiness business;
 
     @Autowired
-    Crypto3rdPartyApiBusiness cryptoBusiness3rdParty;
+    CurrenciesDataDumpBusiness currenciesDataDumpBusiness;
 
     @PostMapping("/names")
     public ResponseEntity<BaseResponse> getCryptoNames(@Valid @RequestBody BaseRequest request){
@@ -39,13 +39,6 @@ public class CryptoApiController {
     public ResponseEntity<BaseResponse> getExchangesCompanies(@Valid @RequestBody BaseRequest request){
 
         return ResponseEntity.ok(business.getExchangeCompanies(request));
-
-    }
-
-    @PostMapping("/currencies")
-    public ResponseEntity<BaseResponse> getCurrencies(@Valid @RequestBody BaseRequest request){
-
-        return ResponseEntity.ok(cryptoBusiness3rdParty.getCryptoCurrencies(request));
 
     }
 
