@@ -21,12 +21,16 @@ public class CurrencyEntity {
     private String BlockChain;
     @Column(unique = true)
     private String Symbol;
+    @Column(unique = true)
     private String MarketCap;
+    @Column(unique = true)
     private String Price;
+    @Column(unique = true)
     private String CircSupply;
     @Column(unique = true)
     private String CoinName;
     private String rank;
+    @Column(unique = true)
     private String logo_url;
     private String date_added;
     private String Description;
