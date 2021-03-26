@@ -19,7 +19,9 @@ public class CurrencyExchangesEntity implements Serializable {
     private long id;
     @Column(name = "currency_id",unique = true, nullable = false)
     private long currency_id;
+    @Column(name = "exchange_name")
     private String exchange_name;
+    @Column(name = "exchange_url")
     private String exchange_url;
 
 }

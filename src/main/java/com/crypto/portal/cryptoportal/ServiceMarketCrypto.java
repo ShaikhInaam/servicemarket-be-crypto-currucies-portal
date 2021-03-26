@@ -30,7 +30,6 @@ public class ServiceMarketCrypto {
 
 		// Add one interceptor like in your example, except using anonymous class.
 		restClient.setInterceptors(Collections.singletonList((request, body, execution) -> {
-
 			return execution.execute(request, body);
 		}));
 

@@ -18,8 +18,11 @@ public class CurrencyNewsEntity implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "date")
     private String date;
+    @Column(name = "domain")
     private String domain;
 
 }

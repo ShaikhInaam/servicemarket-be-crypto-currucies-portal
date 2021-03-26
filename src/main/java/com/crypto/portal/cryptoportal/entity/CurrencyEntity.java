@@ -3,6 +3,7 @@ package com.crypto.portal.cryptoportal.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,21 +19,25 @@ public class CurrencyEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
+    @Column(name = "BlockChain")
     private String BlockChain;
-    @Column(unique = true)
+    @Column(name = "Symbol")
     private String Symbol;
-    @Column(unique = true)
+    @Column(name = "MarketCap")
     private String MarketCap;
-    @Column(unique = true)
+    @Column(name = "Price")
     private String Price;
-    @Column(unique = true)
+    @Column(name = "CoinName")
     private String CircSupply;
-    @Column(unique = true)
+    @Column(name = "CoinName")
     private String CoinName;
+    @Column(name = "rank")
     private String rank;
-    @Column(unique = true)
+    @Column(name = "logo_url")
     private String logo_url;
-    private String date_added;
+    @Column(name = "date_added")
+    private Date date_added;
+    @Column(name = "Description")
     private String Description;
 
     @ManyToOne
