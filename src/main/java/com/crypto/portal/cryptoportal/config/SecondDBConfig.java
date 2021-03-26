@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef = "entityManagerFactory",
+        entityManagerFactoryRef = "usageEntityManagerFactory",
+        transactionManagerRef = "usageTransactionManager",
         basePackages = {"com.crypto.portal.cryptoportal.second_DB_repository"}
 )
 public class SecondDBConfig {
