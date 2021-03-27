@@ -41,13 +41,10 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
         for(CurrenciesDataDumpDto currencyResponse : infoList) {
 
             saveEntities(currencyResponse);
-
             log.info("Current Entity: " + index++);
 
-            if(index == 1000)
-            {
+            if(index == 2500)
                 break;
-            }
 
         }
 
@@ -58,20 +55,26 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
     @Transactional
     public void saveEntities(CurrenciesDataDumpDto currencyResponse)
     {
-        CurrencyEntity currencyEntity = CurrencyEntity.builder().BlockChain("").CoinName(currencyResponse.getCurrency())
-                .symbol(currencyResponse.getSymbol()).MarketCap(currencyResponse.getMarket_cap()).price(currencyResponse.getPrice())
-                .CircSupply(currencyResponse.getCirculating_supply()).rank(Integer.parseInt(currencyResponse.getRank())).logo_url(currencyResponse.getLogo_url())
+        CurrencyEntity currencyEntity = CurrencyEntity.builder()
+                .BlockChain("")
+                .CoinName(currencyResponse.getCurrency())
+                .symbol(currencyResponse.getSymbol())
+                .MarketCap(currencyResponse.getMarket_cap()).price(currencyResponse.getPrice())
+                .CircSupply(currencyResponse.getCirculating_supply())
+                .rank(Integer.parseInt(currencyResponse.getRank()))
+                .logo_url(currencyResponse.getLogo_url())
                 .date_added(currencyResponse.getFirst_candle()).description(currencyResponse.getDescription()).build();
 
         currencyRepository.save(currencyEntity);
 
-        CurrencyStatsEntity currencyStatsEntity = CurrencyStatsEntity.builder().changes_24h(
-                currencyResponse.getOneDay() == null ? "" : currencyResponse.getOneDay().getPrice_change())
+        CurrencyStatsEntity currencyStatsEntity = CurrencyStatsEntity.builder()
+                .changes_24h(currencyResponse.getOneDay() == null ? "" : currencyResponse.getOneDay().getPrice_change())
                 .changes_7d(currencyResponse.getWeekly()  == null ? "" : currencyResponse.getWeekly().getPrice_change())
                 .changes_30d(currencyResponse.getMonthly() == null ? "" : currencyResponse.getMonthly().getPrice_change())
                 .changes_1y(currencyResponse.getYearly() == null ? "" : currencyResponse.getYearly().getPrice_change())
                 .all_time_high(currencyResponse.getHigh() == null ? "" : currencyResponse.getHigh())
-                .all_time_low("0").currency_id(currencyEntity.getId()).build();
+                .all_time_low("0")
+                .currency_id(currencyEntity.getId()).build();
 
         currencyStatsRepository.save(currencyStatsEntity);
     }

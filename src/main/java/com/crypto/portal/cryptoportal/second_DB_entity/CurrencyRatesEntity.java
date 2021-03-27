@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -17,13 +18,13 @@ import java.sql.Timestamp;
 public class CurrencyRatesEntity implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "currency_id")
     private Integer currency_id;
 
     @Column(name = "date_time")
-    private Timestamp date_time;
+    private Date date_time;
 
     @Column(name = "rate")
     private String rate;
