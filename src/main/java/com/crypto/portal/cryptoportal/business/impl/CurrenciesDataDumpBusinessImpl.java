@@ -50,9 +50,7 @@ public class CurrenciesDataDumpBusinessImpl implements CurrenciesDataDumpBusines
             jsonResponseList = mapper.convertValue(response, new TypeReference<List<CurrenciesDataDumpDto>>() {});
 
             log.info("Fetching Currencies Data info");
-
             List<CurrenciesDataDumpDescDto> currencyInfo = getCryptoInfo(request);
-
 
             log.info("Setting Description");
 
@@ -66,7 +64,6 @@ public class CurrenciesDataDumpBusinessImpl implements CurrenciesDataDumpBusines
                 }
 
             }
-
 
             return currenciesDataDumpService.saveCurrenciesInfo(jsonResponseList);
 
