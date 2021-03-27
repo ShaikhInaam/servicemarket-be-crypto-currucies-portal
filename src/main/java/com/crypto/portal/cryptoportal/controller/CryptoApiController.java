@@ -1,5 +1,6 @@
 package com.crypto.portal.cryptoportal.controller;
 
+import com.crypto.portal.cryptoportal.business.base.CurrenciesDataDumpBusiness;
 import com.crypto.portal.cryptoportal.business.base.CryptoApiBusiness;
 import com.crypto.portal.cryptoportal.request.BaseRequest;
 import com.crypto.portal.cryptoportal.response.BaseResponse;
@@ -16,6 +17,9 @@ public class CryptoApiController {
 
     @Autowired
     CryptoApiBusiness business;
+
+    @Autowired
+    CurrenciesDataDumpBusiness currenciesDataDumpBusiness;
 
     @PostMapping("/names")
     public ResponseEntity<BaseResponse> getCryptoNames(@Valid @RequestBody BaseRequest request){
