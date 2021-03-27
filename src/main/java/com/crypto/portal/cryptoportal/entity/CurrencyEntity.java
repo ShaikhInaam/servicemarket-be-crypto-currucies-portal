@@ -41,6 +41,6 @@ public class CurrencyEntity {
     private Date date_added;
     private String description;
 
-    @OneToOne(mappedBy = "currency", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "currency", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private CurrencyStatsEntity currencyStatsEntity;
 }

@@ -37,7 +37,7 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
 
         log.info("Deleting old data");
 
-        currencyRepository.deleteAll();
+        deleteEntities();
 
         log.info("Inserting total Entities: " + infoList.size());
 
@@ -57,6 +57,12 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
 
         return BaseResponse.builder().responseCode(Constants.SUCCESS_RESPONSE_CODE)
                 .responseMessage(configurationUtil.getMessage(Constants.SUCCESS_RESPONSE_CODE)).response(null).build();
+    }
+
+    @Transactional
+    public void deleteEntities()
+    {
+        currencyRepository.deleteAll();
     }
 
     @Transactional

@@ -29,7 +29,7 @@ public class CurrencyStatsEntity implements Serializable {
     private String all_time_high;
     private String all_time_low;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "currency_id", referencedColumnName = "id", nullable = false , insertable=false , updatable=false)
     private CurrencyEntity currency;
 }
