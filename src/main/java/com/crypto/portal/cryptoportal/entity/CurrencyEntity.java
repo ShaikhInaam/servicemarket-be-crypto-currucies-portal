@@ -41,14 +41,6 @@ public class CurrencyEntity {
     private Date date_added;
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "currency", nullable = false , insertable=false , updatable=false)
-    private CurrencyWalletsEntity currency_wallet;
-
-    @OneToMany(targetEntity = CurrencyExchangesEntity.class, fetch = FetchType.LAZY)
-    private List<CurrencyExchangesEntity> currencyExchanList;
-
-//    @OneToOne(targetEntity = CurrencyStatsEntity.class, fetch = FetchType.LAZY)
     @OneToOne(mappedBy = "currency", fetch = FetchType.LAZY)
     private CurrencyStatsEntity currencyStatsEntity;
 }
