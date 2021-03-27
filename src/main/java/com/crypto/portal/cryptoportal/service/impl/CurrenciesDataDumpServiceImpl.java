@@ -35,7 +35,11 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
     @Override
     public BaseResponse saveCurrenciesInfo(List<CurrenciesDataDumpDto> infoList) {
 
-        log.info("Total Entities: " + infoList.size());
+        log.info("Deleting old data");
+
+        currencyRepository.deleteAll();
+
+        log.info("Inserting total Entities: " + infoList.size());
 
         int index = 0;
         for(CurrenciesDataDumpDto currencyResponse : infoList) {
