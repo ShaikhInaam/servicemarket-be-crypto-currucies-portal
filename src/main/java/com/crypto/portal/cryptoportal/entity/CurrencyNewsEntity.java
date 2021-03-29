@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -17,9 +18,13 @@ public class CurrencyNewsEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     private String title;
-    private String date;
+
+    @Column(name = "date")
+    //@Temporal(TemporalType.DATE)
+    private LocalDate date_news;
+
     private String domain;
 
 }
