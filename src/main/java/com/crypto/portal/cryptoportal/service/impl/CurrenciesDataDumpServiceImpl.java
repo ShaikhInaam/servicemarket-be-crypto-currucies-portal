@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService {
@@ -67,14 +68,13 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
 
         currencyRepository.save(currencyEntity);
 
-        CurrencyStatsEntity currencyStatsEntity = CurrencyStatsEntity.builder()
-                .changes_24h(currencyResponse.getOneDay() == null ? "" : currencyResponse.getOneDay().getPrice_change())
-                .changes_7d(currencyResponse.getWeekly()  == null ? "" : currencyResponse.getWeekly().getPrice_change())
-                .changes_30d(currencyResponse.getMonthly() == null ? "" : currencyResponse.getMonthly().getPrice_change())
-                .changes_1y(currencyResponse.getYearly() == null ? "" : currencyResponse.getYearly().getPrice_change())
-                .all_time_high(currencyResponse.getHigh() == null ? "" : currencyResponse.getHigh())
-                .all_time_low("0")
-                .currency_id(currencyEntity.getId()).build();
+        CurrencyStatsEntity currencyStatsEntity = CurrencyStatsEntity.builder().changes_24h(
+                Objects.nonNull(currencyResponse.getOneDay()) ? "" : currencyResponse.getOneDay().getPrice_change())
+                .changes_7d(Objects.nonNull(currencyResponse.getWeekly()) ? "" : currencyResponse.getWeekly().getPrice_change())
+                .changes_30d(Objects.nonNull(currencyResponse.getMonthly()) ? "" : currencyResponse.getMonthly().getPrice_change())
+                .changes_1y(Objects.nonNull(currencyResponse.getYearly()) ? "" : currencyResponse.getYearly().getPrice_change())
+                .all_time_high(Objects.nonNull(currencyResponse.getHigh()) ? "" : currencyResponse.getHigh())
+                .all_time_low("0").currency_id(currencyEntity.getId()).build();
 
         currencyStatsRepository.save(currencyStatsEntity);
     }
