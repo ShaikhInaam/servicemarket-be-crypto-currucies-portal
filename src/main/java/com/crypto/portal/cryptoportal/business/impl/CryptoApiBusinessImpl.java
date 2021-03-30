@@ -2,30 +2,31 @@ package com.crypto.portal.cryptoportal.business.impl;
 
 
 import com.crypto.portal.cryptoportal.business.base.CryptoApiBusiness;
-import com.crypto.portal.cryptoportal.dto.CryptoNamesApiJsonResponse;
-import com.crypto.portal.cryptoportal.dto.CryptoRatesDto;
-import com.crypto.portal.cryptoportal.dto.CryptoWeeklyRatesDto;
-import com.crypto.portal.cryptoportal.dto.CurrencyInfoDto;
-import com.crypto.portal.cryptoportal.dto.ExchangeCompaniesIconListJsonResponse;
-import com.crypto.portal.cryptoportal.dto.ExchangeCompaniesListJsonResponse;
+import com.crypto.portal.cryptoportal.dto.*;
+import com.crypto.portal.cryptoportal.entity.CurrencyEntity;
+import com.crypto.portal.cryptoportal.entity.CurrencyStatsEntity;
+import com.crypto.portal.cryptoportal.repository.CurrencyRepository;
+import com.crypto.portal.cryptoportal.repository.CurrencyStatsRepository;
 import com.crypto.portal.cryptoportal.request.BaseRequest;
-import com.crypto.portal.cryptoportal.response.BaseResponse;
-import com.crypto.portal.cryptoportal.response.CryptoRatesResponse;
-import com.crypto.portal.cryptoportal.response.CryptoWeeklyRatesResponse;
-import com.crypto.portal.cryptoportal.response.CurrencyInfoResponse;
-import com.crypto.portal.cryptoportal.response.ExchangeCompaniesResponse;
+import com.crypto.portal.cryptoportal.response.*;
+import com.crypto.portal.cryptoportal.service.base.CurrencyService;
+import com.crypto.portal.cryptoportal.service.base.CurrencyStatsService;
 import com.crypto.portal.cryptoportal.util.ConfigurationUtil;
 import com.crypto.portal.cryptoportal.util.Constants;
 import com.crypto.portal.cryptoportal.util.RestServiceUtility;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class CryptoApiBusinessImpl implements CryptoApiBusiness {
 
@@ -34,8 +35,18 @@ public class CryptoApiBusinessImpl implements CryptoApiBusiness {
 
     @Autowired
     ConfigurationUtil configurationUtil;
+//
+//    @Autowired
+//    CurrencyRepository currencyRepository;
+//
+//    @Autowired
+//    CurrencyStatsRepository currencyStatsRepository;
 
+    @Autowired
+    CurrencyStatsService currencyStatsService;
 
+    @Autowired
+    CurrencyService currencyService;
 
     @Override
     public BaseResponse getCryptoNames(BaseRequest request) {
@@ -171,7 +182,9 @@ public class CryptoApiBusinessImpl implements CryptoApiBusiness {
 
     }
 
-        @Override
+
+
+    @Override
         public BaseResponse getExchangeCompanies(BaseRequest request) {
             ObjectMapper mapper = new ObjectMapper();
 
@@ -224,5 +237,65 @@ public class CryptoApiBusinessImpl implements CryptoApiBusiness {
                 return null;
             }
         }
+
+
+
+    @SneakyThrows
+    @Override
+    public BaseResponse getAllCryptoDetails(BaseRequest request) {
+        SimpleDateFormat sdf   = new SimpleDateFormat("yyyy-MM-dd");
+        List<Crypto> topCurrencies = new ArrayList<>();
+        List<Crypto> newCurrencies = new ArrayList<>();
+        List<Crypto> otherCurrencies = new ArrayList<>();
+        List<CurrencyEntity> currencyEntityList  = currencyService.getAllCryptoDetails();
+
+        for(CurrencyEntity currencyEntity : currencyEntityList){
+            CurrencyStatsEntity currencyStatsEntity=  currencyStatsService.findByCurrencyId(currencyEntity.getId());
+            Date dateAdded = sdf.parse(currencyEntity.getDate_added().toString());
+            Crypto crypto  =  Crypto.builder().coinName(currencyEntity.getCoinName()).
+
+                     symbol(currencyEntity.getSymbol())
+                    .marketCap(currencyEntity.getMarketCap())
+                    .id(currencyEntity.getId())
+                    .price(currencyEntity.getPrice())
+                    .circularSupply(currencyEntity.getCircSupply())
+                    .blockChain(currencyEntity.getBlockChain())
+                    .rank(currencyEntity.getRank())
+                    .logoUrl(currencyEntity.getLogo_url())
+                    .dateAdded(currencyEntity.getDate_added())
+                    .description(currencyEntity.getDescription())
+                    .currencyId(currencyStatsEntity.getCurrency_id())
+                    .currencyStatsId(currencyStatsEntity.getId())
+                    .allTimeHigh(currencyStatsEntity.getAll_time_high())
+                    .allTimeLow(currencyStatsEntity.getAll_time_low())
+                    .changesTwentyFourHrs(currencyStatsEntity.getChanges_24h())
+                    .changesSevenDays(currencyStatsEntity.getChanges_7d())
+                    .changesThirtyDays(currencyStatsEntity.getChanges_30d())
+                    .changesYearly(currencyStatsEntity.getChanges_1y())
+                    .build();
+
+                    otherCurrencies.add(crypto);
+
+                    if(currencyEntity.getRank() <=10){
+                        topCurrencies.add(crypto);
+
+                    }
+
+                    long days_duration = TimeUnit.MILLISECONDS.toDays(
+                    System.currentTimeMillis() - dateAdded.getTime());
+
+                    if(days_duration<=10){
+                         newCurrencies.add(crypto);
+
+                    }
+
+
+        }
+
+
+        CryptoResponse cryptoResponse = CryptoResponse.builder().topCurrencies(topCurrencies).otherCurrencies(otherCurrencies).newCurrencies(newCurrencies).build();
+        return BaseResponse.builder().response(cryptoResponse).responseCode(Constants.SUCCESS_RESPONSE_CODE).responseMessage(configurationUtil.getMessage(Constants.SUCCESS_RESPONSE_CODE)).build();
+
+    }
 
 }

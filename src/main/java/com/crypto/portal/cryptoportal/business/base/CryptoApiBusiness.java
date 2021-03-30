@@ -12,4 +12,5 @@ public interface CryptoApiBusiness {
     BaseResponse getExchangeCompanies(BaseRequest request);
     BaseResponse getCryptoInfo(BaseRequest request,String cryptoName);
     BaseResponse getCryptoWeeklyRates(BaseRequest request,String cryptoName, String date);
+    BaseResponse getAllCryptoDetails(BaseRequest request);
 }

@@ -57,4 +57,11 @@ public class CryptoApiController {
     }
 
 
+    @PostMapping("/getAll")
+    public ResponseEntity<BaseResponse> getAllCryptoCurrencyInfo(@Valid @RequestBody BaseRequest request){
+
+        return ResponseEntity.ok(business.getAllCryptoDetails(request));
+
+    }
+
 }

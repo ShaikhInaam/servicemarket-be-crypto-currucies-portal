@@ -17,10 +17,10 @@ public class CurrencyStatsEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
 
     @Column(nullable=false, name = "currency_id")
-    private long currency_id;
+    private Integer currency_id;
 
     private String changes_24h;
     private String changes_7d;
