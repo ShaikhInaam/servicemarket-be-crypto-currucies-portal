@@ -53,6 +53,7 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
                 .responseMessage(configurationUtil.getMessage(Constants.SUCCESS_RESPONSE_CODE)).response(null).build();
     }
 
+
     @Transactional
     public void saveEntities(CurrenciesDataDumpDto currencyResponse)
     {
