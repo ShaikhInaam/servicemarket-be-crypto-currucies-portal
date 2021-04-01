@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CurrenciesExchangeDataDumpDto {
-    private String exchange_name;
-    private String exchange_url;
+    private String name;
+    private String website;
 }

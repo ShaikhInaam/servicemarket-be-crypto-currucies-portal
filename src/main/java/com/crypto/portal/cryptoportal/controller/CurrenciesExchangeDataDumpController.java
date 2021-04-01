@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/crypto/exchanges/data")
+@RequestMapping("/crypto/exchanges/data")   ////crypto/exchanges/datadump-currencies-exchanges
 public class CurrenciesExchangeDataDumpController {
 
     @Autowired

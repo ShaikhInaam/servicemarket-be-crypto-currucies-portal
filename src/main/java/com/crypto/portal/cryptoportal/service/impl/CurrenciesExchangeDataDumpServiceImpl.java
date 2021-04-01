@@ -1,5 +1,6 @@
 package com.crypto.portal.cryptoportal.service.impl;
 
+import com.crypto.portal.cryptoportal.business.base.CurrenciesExchangeDataDumpBusiness;
 import com.crypto.portal.cryptoportal.dto.CurrenciesDataDumpDto;
 import com.crypto.portal.cryptoportal.dto.CurrenciesExchangeDataDumpDto;
 import com.crypto.portal.cryptoportal.entity.CurrencyExchangesEntity;
@@ -12,21 +13,22 @@ import com.crypto.portal.cryptoportal.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
 
+@Service
 public class CurrenciesExchangeDataDumpServiceImpl implements CurrenciesExchangeDataDumpService {
 
     @Autowired
     ConfigurationUtil configurationUtil;
 
     @Autowired
-    CurrenciesExchangeDataDumpRepository currencyExchangeRepository;
+    CurrenciesExchangeDataDumpBusiness currencyExchangeBussniss;
 
-    //@Autowired
-    //CurrencyStatsRepository currencyStatsRepository;
+    @Autowired
+    CurrenciesExchangeDataDumpRepository currencyExchangeRepository;
 
     private static Logger log = LoggerFactory.getLogger(CurrenciesDataDumpServiceImpl.class);
 
@@ -50,9 +52,12 @@ public class CurrenciesExchangeDataDumpServiceImpl implements CurrenciesExchange
 
     @Transactional
     public void saveEntities(CurrenciesExchangeDataDumpDto currencyExchangeResponse){
+     /*   log.info(currencyExchangeResponse.getExchange_name());
+        log.info(currencyExchangeResponse.getExchange_url());*/
+
         CurrencyExchangesEntity currencyExchangesEntity = CurrencyExchangesEntity.builder()
-                .exchange_name(currencyExchangeResponse.getExchange_name())
-                .exchange_url(currencyExchangeResponse.getExchange_url())
+                .exchange_name(currencyExchangeResponse.getName())
+                .exchange_url(currencyExchangeResponse.getWebsite())
                 .build();
 
         currencyExchangeRepository.save(currencyExchangesEntity);

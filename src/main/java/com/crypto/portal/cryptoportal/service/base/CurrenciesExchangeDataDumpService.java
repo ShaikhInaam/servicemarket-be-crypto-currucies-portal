@@ -1,6 +1,6 @@
 package com.crypto.portal.cryptoportal.service.base;
 
-import com.crypto.portal.cryptoportal.dto.CurrenciesDataDumpDto;
+
 import com.crypto.portal.cryptoportal.dto.CurrenciesExchangeDataDumpDto;
 import com.crypto.portal.cryptoportal.response.BaseResponse;
 
