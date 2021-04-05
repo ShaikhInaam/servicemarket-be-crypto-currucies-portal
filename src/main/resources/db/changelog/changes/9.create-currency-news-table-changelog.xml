@@ -6,7 +6,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <changeSet author="Inaam" id="9">
-
+        <validCheckSum>8:1ab33118adc7bb4ea6c0d8d7633b3f37</validCheckSum>
         <sql>
 
             CREATE SEQUENCE currency_news_seq;
@@ -15,7 +15,7 @@
 
             title text NOT NULL,
             date  date NOT NULL,
-            domain VARCHAR(50) NOT NULL,
+            domain VARCHAR(1000) NOT NULL,
 
             id INT NOT NULL DEFAULT NEXTVAL ('currency_news_seq') , PRIMARY KEY (id)
             ) ;

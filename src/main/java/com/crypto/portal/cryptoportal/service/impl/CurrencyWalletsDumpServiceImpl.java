@@ -47,6 +47,7 @@ public class CurrencyWalletsDumpServiceImpl implements CurrencyWalletsDumpServic
 
         return BaseResponse.builder().responseCode(Constants.SUCCESS_RESPONSE_CODE)
                 .responseMessage(configurationUtil.getMessage(Constants.SUCCESS_RESPONSE_CODE)).response(null).build();
+
     }
 
     @Transactional

@@ -7,11 +7,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
-
+@EnableScheduling
 @SpringBootApplication
 public class ServiceMarketCrypto {
 

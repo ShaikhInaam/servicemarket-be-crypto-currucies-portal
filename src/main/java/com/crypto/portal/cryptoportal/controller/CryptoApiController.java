@@ -1,5 +1,6 @@
 package com.crypto.portal.cryptoportal.controller;
 
+import com.crypto.portal.cryptoportal.business.base.CryptoNewsDataDumpBusiness;
 import com.crypto.portal.cryptoportal.business.base.CurrenciesDataDumpBusiness;
 import com.crypto.portal.cryptoportal.business.base.CryptoApiBusiness;
 import com.crypto.portal.cryptoportal.request.BaseRequest;
@@ -17,6 +18,9 @@ public class CryptoApiController {
 
     @Autowired
     CryptoApiBusiness business;
+
+    @Autowired
+    CryptoNewsDataDumpBusiness cryptoNewsDataDumpBusiness;
 
     @Autowired
     CurrenciesDataDumpBusiness currenciesDataDumpBusiness;
@@ -63,5 +67,13 @@ public class CryptoApiController {
         return ResponseEntity.ok(business.getAllCryptoDetails(request));
 
     }
+
+//    @PostMapping("/news")
+//    public ResponseEntity<BaseResponse> checkingNews(@Valid @RequestBody BaseRequest request){
+//
+//        return ResponseEntity.ok(cryptoNewsDataDumpBusiness.saveCryptoNews(request));
+//
+//    }
+
 
 }
