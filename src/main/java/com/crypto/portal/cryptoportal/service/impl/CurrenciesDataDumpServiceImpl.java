@@ -66,6 +66,9 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
                 .logo_url(currencyResponse.getLogo_url())
                 .date_added(currencyResponse.getFirst_candle()).description(currencyResponse.getDescription()).build();
 
+
+
+
         currencyRepository.save(currencyEntity);
 
         CurrencyStatsEntity currencyStatsEntity = CurrencyStatsEntity.builder().changes_24h(
@@ -75,6 +78,7 @@ public class CurrenciesDataDumpServiceImpl implements CurrenciesDataDumpService 
                 .changes_1y(Objects.nonNull(currencyResponse.getYearly()) ? "" : currencyResponse.getYearly().getPrice_change())
                 .all_time_high(Objects.nonNull(currencyResponse.getHigh()) ? "" : currencyResponse.getHigh())
                 .all_time_low("0").currency_id(currencyEntity.getId()).build();
+
 
         currencyStatsRepository.save(currencyStatsEntity);
     }
